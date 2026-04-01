@@ -19,10 +19,10 @@
 
 /* DARK MODE */
 .dark {
-    --bg-color: #0f172a;
+    --bg-color: ##121212;
     --card-bg: #1e293b;
-    --text-color: #f1f5f9;
-    --muted-color: #94a3b8;
+    --text-color: #e0e0e0;
+    --muted-color: #b0b0b0 !important;
     --border-color: #334155;
 }
 
@@ -136,6 +136,9 @@
         left: -250px;
         top: 95px;
         width: 130px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         height: 100%;
         z-index: 2000;
     }
@@ -246,3 +249,158 @@
     color: gray;
 }
 
+/* CHAT LIST */
+
+.chat-list{
+flex:1;
+overflow-y:auto;
+}
+
+/* CHAT ITEM */
+
+.chat-item{
+display:flex;
+gap:10px;
+padding:12px;
+text-decoration:none;
+color:inherit;
+border-bottom:1px solid var(--border-color);
+transition:0.2s;
+align-items:center;
+}
+
+.chat-item:hover{
+background:#f0f2f5;
+}
+
+/* AVATAR */
+
+.chat-avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+background:#ddd;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+}
+
+/* INFO */
+
+.chat-info{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.chat-name{
+font-weight:600;
+}
+
+.chat-last{
+font-size:12px;
+opacity:0.7;
+}
+
+/* BADGE */
+
+.badge{
+background:red;
+color:white;
+font-size:11px;
+padding:3px 6px;
+border-radius:10px;
+}
+
+/* EMPTY */
+
+.no-chat{
+padding:20px;
+text-align:center;
+opacity:0.6;
+}
+
+/* Container Tab Info */
+.profile-tabs {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 5px;
+    border: none;
+    background: none;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+}
+
+/* Badge Angka */
+.badge {
+    background: #e9ecef;
+    color: #495057;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-left: 5px;
+}
+
+.tab-btn.active .badge {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Konten Tab */
+.tab-content {
+    display: none; /* Sembunyi by default */
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.show {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tabel */
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profile-table th {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #888;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #f8f9fa;
+    font-size: 14px;
+}
+
+.empty-msg {
+    text-align: center;
+    color: #999;
+    padding: 30px !important;
+}

@@ -20,12 +20,13 @@
 
 /* DARK MODE */
 .dark {
-    --bg-color: #0f172a;
+    --bg-color: ##121212;
     --card-bg: #1e293b;
-    --text-color: #f1f1f1;
-    --muted-color: #94a3b8;
+    --text-color: #e0e0e0;
+    --muted-color: #b0b0b0 !important;
     --border-color: #334155;
 }
+
 
 /* ================================
    GLOBAL RESET
@@ -43,6 +44,7 @@ body {
 
 h1,h2,h3,h4,h5,h6 {
     margin: 0 0 10px;
+    color: var(--text-color);
 }
 
 p {

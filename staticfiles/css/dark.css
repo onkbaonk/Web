@@ -1,7 +1,7 @@
 body.dark {
     --bg-color: #121212 !important;
-    --text-color: #e5e5e5 !important;
-    --card-bg: #1e1e1e !important;
+    --text-color: #b0b0b0 !important;
+    --card-bg: #1e293b;
     --nav-bg: #181818 !important;
     --border-color: #333 !important;
 }
@@ -18,12 +18,13 @@ body.dark .navbar {
 
 body.dark-mode {
     background-color: #121212;
-    color: #e4e4e4;
+    color: #e0e0e0;
 }
 
 body.dark-mode .card {
     background-color: #1e1e1e;
     color: #e4e4e4;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
 }
 
 body.dark-mode a {
@@ -52,7 +53,7 @@ body.dark-mode .dropdown-item:hover {
 }
 
 body.dark-mode .text-muted {
-    color: #9aa0a6 !important;
+    color: #b0b0b0 !important;
 }
 
 body.dark-mode input,
