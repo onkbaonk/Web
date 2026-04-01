@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>{{ thread.title }}</h3>
+    <p class="text-muted">
+        by {{ thread.author }} • {{ thread.created_at }}
+    </p>
+
+    <div class="post-card">
+        {{ thread.content }}
+    </div>
+<a href="{% url 'report_thread' thread.id %}"
+class="btn btn-sm btn-danger">
+🚩 Report
+</a>
+    <h5>Replies</h5>
+
+    {% for reply in replies %}
+        {% include "forum/partials/reply_item.html" %}
+    {% empty %}
+        <p>No replies yet.</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <div class="card mt-4 p-3">
+        <form method="post" action="{% url 'add_reply' thread.pk %}">
+            {% csrf_token %}
+            <textarea name="content" class="form-control mb-2" required></textarea>
+            <button class="btn btn-primary">Reply</button>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

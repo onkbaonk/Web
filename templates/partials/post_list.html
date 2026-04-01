@@ -1,0 +1,13 @@
+<div class="card mb-3 p-3">
+    <a href="{{ post.get_absolute_url }}">
+        <h5>{{ post.title }}</h5>
+    </a>
+    <small>
+        👤 {{ post.author.username }}
+        • {{ post.created_at|date:"d M Y" }}
+    </small>
+    <p>{{ post.content|truncatewords:25 }}</p>
+    <a href="{{ post.get_absolute_url }}">
+        Baca →
+    </a>
+</div>

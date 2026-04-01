@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+<h4>Report Thread: {{ thread.title }}</h4>
+
+<form method="POST">
+{% csrf_token %}
+
+<textarea name="reason" class="form-control mb-3"
+placeholder="Reason..." required></textarea>
+
+<button class="btn btn-danger">Submit Report</button>
+
+</form>
+
+</div>
+
+{% endblock %}

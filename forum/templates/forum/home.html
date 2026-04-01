@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Forum Threads</h3>
+
+<div class="list-group">
+
+{% for thread in threads %}
+<div class="list-group-item">
+
+    <h5>
+    <a href="{{ thread.get_absolute_url }}">
+        {{ thread.title }}
+    </a>
+</h5>
+
+    <small>
+        by {{ thread.author }}
+        | {{ thread.category }}
+        | {{ thread.created_at|date:"d M Y" }}
+    </small>
+</div>
+{% empty %}
+<p>No threads yet.</p>
+{% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+{% for item in feed %}
+    {% if item.is_post %}
+        {% include "partials/post_list.html" with post=item %}
+    {% else %}
+        {% include "partials/thread_card.html" with thread=item %}
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+  <h3 class="mb-4 fw-bold">
+    <i class="bi bi-pencil-square me-2"></i>
+    {% if edit_mode %}Edit Post
+    {% else %}Create Post
+    {% endif %}
+  </h3>
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+{% for field in form %}
+<div class="mb-3">
+
+<label class="form-label fw-semibold">
+{{ field.label }}
+</label>
+
+{{ field }}
+
+{% if field.errors %}
+<div class="text-danger small mt-1">
+{{ field.errors }}
+</div>
+{% endif %}
+
+</div>
+{% endfor %}
+
+<div class="d-flex gap-2">
+
+<button type="submit" class="btn btn-primary flex-fill">Save
+</button>
+
+<a href="{% url 'post_list' %}" class="btn btn-outline-secondary flex-fill">
+Cancel
+</a>
+
+</div>
+
+</form>
+</div>
+
+{% endblock %}

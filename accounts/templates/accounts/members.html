@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+<h3 class="mb-4">👥 Community Members</h3>
+
+<!-- SEARCH -->
+<form method="GET" class="mb-3">
+    <input type="text"
+           name="q"
+           value="{{ query }}"
+           placeholder="Search members..."
+           class="form-control">
+</form>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead class="table-light">
+<tr>
+    <th>User</th>
+    <th>Role</th>
+    <th>Location</th>
+    <th>Status</th>
+    <th class="text-end">Action</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for member in users %}
+<tr>
+
+<!-- USER -->
+<td>
+<div class="d-flex align-items-center gap-3">
+
+<img src="{{ member.profile_picture }}"
+     style="width:25px;height:25px;border-radius:50%;object-fit:cover;">
+<a href="{% url 'profile' member.username %}">
+<strong>{{ member.username }}</strong>
+</a>
+
+{% if member.bio %}
+<div class="small text-muted">
+{{ member.bio|truncatechars:40 }}
+</div>
+{% endif %}
+</div>
+
+</div>
+</td>
+
+<!-- ROLE -->
+<td>
+{% if member.role == "admin" %}
+<span class="badge bg-danger">Admin</span>
+{% elif member.role == "moderator" %}
+<span class="badge bg-warning text-dark">Moderator</span>
+{% else %}
+<span class="badge bg-secondary">Member</span>
+{% endif %}
+</td>
+
+<!-- LOCATION -->
+<td>
+{{ member.location|default:"-" }}
+</td>
+
+<!-- STATUS (sementara static) -->
+<td>
+<span class="badge bg-secondary">Offline</span>
+</td>
+
+<!-- FOLLOW BUTTON -->
+<td class="text-end">
+
+{% if user.is_authenticated %}
+<button class="followBtn btn btn-sm
+{% if member.username in following_usernames %}
+    btn-outline-danger
+{% else %}
+    btn-primary
+{% endif %}"
+data-username="{{ member.username }}">
+
+{% if member.username in following_usernames %}
+    Unfollow
+{% else %}
+    Follow
+{% endif %}
+
+</button>
+{% endif %}
+
+</td>
+
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h4 class="mt-4">📜 Admin Activity Log</h4>
+
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Admin</th>
+<th>Action</th>
+<th>Target</th>
+<th>Description</th>
+<th>Time</th>
+</tr>
+</thead>
+
+<tbody>
+{% for log in logs %}
+<tr>
+<td>{{ log.admin.username }}</td>
+<td><span class="badge bg-dark">{{ log.action }}</span></td>
+<td>{{ log.target_user.username }}</td>
+<td>{{ log.description }}</td>
+<td>{{ log.created_at|date:"d M Y H:i" }}</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+{% endblock %}

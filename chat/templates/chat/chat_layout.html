@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Messages</title>
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<!-- Theme -->{% if user.is_authenticated %}
+
+<link rel="stylesheet" href="{% static 'themes/'|add:user.theme|add:'.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'themes/default.css' %}">
+{% endif %}
+<!-- Dark Mode --><link rel="stylesheet" href="{% static 'css/dark.css' %}"></head>
+<body class="{% if user.is_authenticated and user.dark_mode %}dark{% endif %}">
+  <!-- HEADER -->
+<div class="chat-header">
+  <div style="display:flex;align-items:center;gap:10px;">
+<button onclick="toggleSidebar()">☰</button>
+<div>
+{% if conversation %}
+{% for user in conversation.participants.all %}
+{% if user != request.user %}
+💬 {{ user.username }}
+{% endif %}
+{% endfor %}
+{% endif %}
+</div>
+</div>
+<div>
+{% if conversation %}
+<a href="{% url 'clear_chat' conversation.id %}">🧹 Clear</a>
+{% endif %}
+</div>
+<div>
+<a href="/">Home</a>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-title">
+💬 Messages
+</div>
+<div class="chat-list">{% for c in conversations %}
+
+<div class="chat-item">
+  <a class="chat-open" href="{% url 'conversation_detail' c.id %}">
+    <div class="chat-avatar">
+👤
+</div>
+<div class="chat-info">
+  <div class="chat-name">
+{% for u in c.participants.all %}
+{% if u != request.user %}
+{{ u.username }}
+{% endif %}
+{% endfor %}
+</div>
+<div class="chat-last">
+Tap to open chat
+</div></div></a><a class="delete-chat" href="{% url 'delete_conversation' c.id %}">
+❌
+</a>
+</div>{% empty %}
+
+<div class="no-chat">
+No chats
+</div>{% endfor %}
+
+</div>
+</div>
+
+<!-- MAIN CHAT -->
+<div class="chat-main">
+  <div class="chat-container" id="chatBox">
+    
+{% block chat_messages %}{% endblock %}
+</div>
+<div class="chat-input">
+{% block chat_input %}{% endblock %}
+</div>
+</div>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

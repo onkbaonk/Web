@@ -1,0 +1,248 @@
+/* ===============================
+   ROOT THEME SYSTEM
+================================ */
+
+:root {
+    --primary-color: #007bff;
+    --text-muted: #6c757d;
+    --border-soft: #f0f0f0;
+    --bg-light: #f8f9fa;
+
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-color: #1e293b;
+    --muted-color: #64748b;
+    --border-color: #e2e8f0;
+
+    --radius: 12px;
+}
+
+/* DARK MODE */
+.dark {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #f1f5f9;
+    --muted-color: #94a3b8;
+    --border-color: #334155;
+}
+
+/* ================================
+   NAVBAR
+================================ */
+
+.navbar {
+    width: auto;
+    background: var(--card-bg);
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-links a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+}
+/* ================================
+   MAIN LAYOUT
+================================ */
+
+.layout {
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+    align-items: stretch;
+}
+.main-and-footer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.container {
+    flex: 1;
+    padding: 20px;
+}
+/* ================================
+   SIDEBAR
+================================ */
+
+.sidebar {
+    width: 130px;
+    background: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 12px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.sidebar a.active {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+}
+
+/* ================================
+   CONTENT
+================================ */
+
+.content {
+    flex: 1;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex: 1;
+}
+
+/* ================================
+   MOBILE RESPONSIVE
+================================ */
+
+.menu-toggle {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 95px;
+        width: 130px;
+        height: 100%;
+        z-index: 2000;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .content {
+        padding: 15px;
+    }
+}
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.pagination-wrapper a {
+    padding: 8px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: 0.2s;
+}
+
+.pagination-wrapper a:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pagination-wrapper .current {
+    padding: 8px 14px;
+    font-weight: 600;
+    
+}/* Container Utama Komentar */
+.comment-box {
+    padding: 20px;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 16px;
+    margin-bottom: 10px;
+    background: var(--nav-color);
+    color: var(--text-color, #212529);
+    
+}
+
+/* Memperbaiki Teks Pudar di Dark Mode */
+.comment-box p, .reply-box p, .card-body p {
+    color: inherit !important; 
+    opacity: 0.95;
+}
+
+.text-muted-adaptive {
+    color: var(--text-muted, #6c757d) !important;
+    font-size: 0.85rem;
+}
+
+.replies-container {
+    margin-left: 20px;
+    border-left: 2px solid #007bff;
+    padding-left: 15px;
+    margin-top: 10px;
+    display: none; /* Default tertutup */
+}
+
+.reply-item {
+    background: rgba(128, 128, 128, 0.08);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.greeting-wrapper {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+}
+
+.greeting-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: runText 15s linear infinite;
+    font-weight: 500;
+}
+
+/* ANIMATION */
+@keyframes runText {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+#loading {
+    font-size: 14px;
+    color: gray;
+}
+

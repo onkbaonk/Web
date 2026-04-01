@@ -1,0 +1,44 @@
+<div class="comment-box" id="comment-{{ comment.id }}">
+
+    <strong><a href="{% url 'profile' comment.author.username %}">{{comment.author.username}}</a></strong>
+    <small>{{ comment.created_at|date:"d M Y H:i" }}</small>
+
+    <p>{{ comment.content }}</p>
+    {% if user == comment.author or user.is_staff %}
+    <a href="{% url 'delete_comment' comment.id %}" class="delete-btn">
+        Delete
+    </a>
+    {% endif %}
+
+    <a href="javascript:void(0)"
+       onclick="setReply({{ comment.id }})"
+       class="reply-btn">
+       Balas
+    </a>
+
+    <!-- REPLIES -->
+    {% if comment.replies.count > 0 %}
+<div class="reply-toggle"
+     onclick="toggleReplies({{ comment.id }})">
+     💬 Lihat {{ comment.replies.count }} balasan
+</div>
+<div id="replies-{{ comment.id }}" class="replies">
+    {% for reply in comment.replies.all %}
+    <div class="reply-item">
+        <strong>
+            <a href="{% url 'profile' reply.author.username %}">
+                {{ reply.author.username }}
+            </a>
+        </strong>
+        <small>{{ reply.created_at|date:"d M Y H:i" }}</small>
+        <p>{{ reply.content }}</p>
+        {% if user == reply.author or user.is_staff %}
+        <a href="{% url 'delete_comment' reply.id %}" class="delete-btn">
+            Delete
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+  </div>

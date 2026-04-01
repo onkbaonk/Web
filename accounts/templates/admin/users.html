@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<h4 class="mt-4">👥 User Management</h4>
+
+ <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+<th>Username</th>
+<th>Email</th>
+<th>Role</th>
+<th>Date Joined</th>
+<th>Action</th>
+<th>Status</th>
+<th>Moderation</th>
+</tr>
+</thead>
+
+<tbody>
+{% for user in users %}
+<tr>
+<td>{{ user.username }}</td>
+<td>{{ user.email }}</td>
+<td>
+<span class="badge bg-primary">{{ user.role }}</span>
+</td>
+<td>{{ user.date_joined|date:"d M Y" }}</td>
+<td>
+<div class="dropdown">
+    <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+    Action
+  </button>
+
+  <ul class="dropdown-menu">
+    
+    <li><a class="dropdown-item"
+         href="{% url 'change_user_role' user.id 'member' %}">
+         Set Member
+      </a>
+    </li>
+
+    <li>
+      <a class="dropdown-item"
+         href="{% url 'change_user_role' user.id 'moderator' %}">
+         Set Moderator
+      </a>
+    </li>
+
+    <li>
+      <a class="dropdown-item"
+         href="{% url 'change_user_role' user.id 'admin' %}">
+         Set Admin
+      </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    {% if request.user.is_superuser and not user.is_superuser %}
+    <li><a class="dropdown-item text-danger"
+     href="{% url 'delete_user' user.id %}">
+     Delete User</a>
+    </li>
+    {% endif %}
+
+  </ul>
+</div>
+</td>
+<td>
+{% if user.is_banned %}
+<span class="badge bg-danger">Banned</span>
+{% else %}
+<span class="badge bg-success">Active</span>
+{% endif %}
+</td>
+
+<td>
+
+{% if not user.is_superuser %}
+    {% if user.is_banned %}
+    <a href="{% url 'unban_user' user.id %}"
+       class="btn btn-sm btn-success">Unban</a>
+    {% else %}
+    <a href="{% url 'ban_user' user.id %}"
+       class="btn btn-sm btn-danger">Ban</a>
+    {% endif %}
+{% else %}
+    <span class="badge bg-warning">Protected</span>
+{% endif %}
+
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

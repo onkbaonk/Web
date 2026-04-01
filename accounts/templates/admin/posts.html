@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+<h3>Manage Posts</h3>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Created</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+{% for post in posts %}
+<tr>
+<td>{{ post.title }}</td>
+<td>{{ post.author.username }}</td>
+<td> {{ post.created_at }}
+</td>
+<td><span class="badge bg-info">{{ post.status }}</span></td>
+<td><a href="{% url 'toggle_post_status' post.id %}" class="btn btn-sm btn-warning">Toggle</a>
+<a href="{% url 'delete_post' post.id %}"
+   class="btn btn-sm btn-danger"> Delete</a></td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

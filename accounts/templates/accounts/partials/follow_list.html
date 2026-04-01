@@ -1,0 +1,27 @@
+<h5 class="mb-3">{{ title }}</h5>
+
+{% for user in users %}
+<div class="follow-user">
+    <img src="{{ user.image.url }}" class="follow-avatar">
+    <div>
+        <a href="{% url 'profile' user.username %}">
+            {{ user.username }}
+        </a>
+    </div>
+    <button id="followBtn"  
+        class="btn btn-primary mt-2"  
+        data-username="{{ user_profile.username }}">  
+  
+    {% if is_following %}  
+        Following  
+    {% else %}  
+        Follow  
+    {% endif %}  
+</button>  
+  
+    <div>  
+    
+</div>
+{% empty %}
+<p class="text-muted small">Tidak ada data.</p>
+{% endfor %}

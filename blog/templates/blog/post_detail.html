@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card-header mb-4">
+
+<h3 class="mb-1">
+<i class="bi bi-pencil-square me-1"></i>
+{{ post.title }}
+{% if post.status == 'draft' %}
+<span class="badge bg-warning text-dark">DRAFT</span>
+{% endif %}
+</h3>
+
+<p class="text-muted-adaptive">
+<i class="bi bi-person"></i><a href="{% url 'profile' post.author.username %}">{{post.author.username}}</a> |
+<i class="bi bi-calendar"></i> {{ post.created_at|date:"d M Y" }}
+| 🏷 {{ post.category.name }}
+| 👁 {{ post.views }} views
+</p>
+<hr>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" class="img-fluid rounded-4 mb-3 shadow-sm">
+    {% endif %}
+
+    <div class="post-content mb-4">
+        {{ post.content|linebreaks }}
+    </div>
+          {% if user.is_authenticated %}
+             <form action="{% url 'toggle_like' post.slug %}"
+               {% csrf_token %}
+               <button class="btn btn-outline-primary btn-sm rounded-pill px-3">👍 {{ post.likes.count }} </button>
+              </form>
+              {% endif %}
+
+              {% if user == post.author or user.is_staff %}
+              <div class="post-actions">
+    <a href="{% url 'post_edit' post.slug %}">Edit</a>
+    <a href="{% url 'post_delete' post.slug %}">Delete</a>
+    </div>
+    {% endif %}
+</div>
+<div id="comment-list">
+    {% for comment in comments %}
+        {% include "blog/partials/comment_item.html" %}
+    {% empty %}
+        <p class="text-muted small">Belum ada diskusi.</p>
+    {% endfor %}
+    
+</div>
+
+{% if related_posts %}
+<div class="related-posts-section mt-5 mb-4">
+    <h5 class="fw-bold mb-3">
+        <i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>Baca Juga
+    </h5>
+    
+    <div class="list-group list-group-flush border rounded-4 overflow-hidden shadow-sm">
+        {% for r in related_posts %}
+            <a href="{{ r.get_absolute_url }}" 
+               class="list-group-item list-group-item-action d-flex align-items-center py-3 border-bottom">
+                <div class="me-3 text-primary">
+                    <i class="bi bi-arrow-right-circle"></i>
+                </div>
+                <div class="fw-medium text-dark text-decoration-none">
+                    {{ r.title }}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- ===== STICKY COMMENT INPUT ===== -->
+
+<div class="comment-bar">
+    <form id="commentForm">
+        {% csrf_token %}
+
+        <input type="hidden" name="parent_id" id="parent_id">
+
+        <textarea
+            name="content"
+            placeholder="Tulis komentar..."
+            required
+        ></textarea>
+
+        <button type="submit">
+            <i class="bi bi-send-fill"></i>
+        </button>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+const form = document.getElementById("commentForm");
+if(!form) return;
+
+const textarea = form.querySelector("textarea");
+
+
+/* ================= CSRF ================= */
+
+function getCookie(name) {
+    let cookieValue = null;
+    document.cookie.split(';').forEach(cookie => {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        }
+    });
+    return cookieValue;
+}
+
+
+/* ================= SUBMIT COMMENT ================= */
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    fetch("{% url 'post_comment' post.slug %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if(data.success){
+
+            // reply
+            if(data.parent_id){
+              const commentBox = document.querySelector("#comment-" + data.parent_id);
+              
+            if(!commentBox) return;
+              let repliesBox = commentBox.querySelector(".replies");
+
+    // ✅ kalau belum ada container replies → buat
+            if(!repliesBox){
+              repliesBox = document.createElement("div");
+              repliesBox.className = "replies show";
+              repliesBox.id = "replies-"+data.parent_id;
+              repliesBox.innerHTML = `<div class="reply-list"></div>`;
+              commentBox.appendChild(repliesBox);
+            }
+            
+              const replyList = repliesBox.querySelector(".reply-list");
+              
+              replyList.insertAdjacentHTML("beforeend", data.html);
+            }
+            else{
+              document
+              .getElementById("comment-list")
+              .insertAdjacentHTML("afterbegin", data.html);
+            }
+
+            textarea.value = "";
+            textarea.style.height = "38px";
+            document.getElementById("parent_id").value = "";
+            textarea.placeholder = "Tulis komentar...";
+        }
+    });
+});
+
+
+/* ================= REPLY BUTTON ================= */
+
+window.setReply = function(id){
+    document.getElementById("parent_id").value = id;
+    textarea.placeholder = "Membalas komentar...";
+    textarea.focus();
+};
+
+
+/* ================= AUTO RESIZE ================= */
+
+textarea.addEventListener("input", function () {
+    this.style.height = "38px";
+    this.style.height = this.scrollHeight + "px";
+});
+
+
+/* ================= DROPDOWN REPLIES ================= */
+
+window.toggleReplies = function(commentId){
+
+    const box = document.getElementById("replies-"+commentId);
+    if(!box) return;
+
+    box.classList.toggle("show");
+
+    if(!box.dataset.loaded){
+
+        fetch(`/blog/comment/${commentId}/replies/`)
+        .then(res => res.json())
+        .then(data => {
+
+            box.querySelector(".reply-list").innerHTML = data.html;
+            box.dataset.loaded = true;
+
+        });
+    }
+};
+
+});
+</script>
+
+{% endblock %}

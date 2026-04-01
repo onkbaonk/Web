@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+<h3>Manage Threads</h3>
+
+<div class="table-responsive">
+<table class="table table-striped">
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Created</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+{% for thread in threads %}
+<tr>
+<td>{{ thread.title }}</td>
+<td>{{ thread.author.username }}</td>
+<td>{{ thread.created_at|date:"d M Y" }}</td>
+
+<td>
+<a href="#" class="btn btn-sm btn-danger">
+Delete
+</a>
+</td>
+
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+:root {
+    --primary-color: #9ACD32;
+    --text-color: #2f3e1f;
+    --bg-color: #f3fae6;
+    --card-bg: #ffffff;
+    --nav-bg: #e2f0c2;
+    --border-color: #c5db8f;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.card, .article, .navbar, .sidebar, .desktop-footer, .comment-box, 
+.notif-badge, .notif-bell, .notif-dropdown, .notif-dropdown.show, 
+.notif-wrapper, .notif-footer {
+    background-color: var(--nav-bg) !important;
+}

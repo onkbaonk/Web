@@ -1,0 +1,53 @@
+{% extends "chat/chat_layout.html" %}
+{% load static %}
+{% block chat_messages %}
+<div id="chat-box"
+      data-convo="{{ conversation.id }}"
+      data-user="{{ request.user.username }}">
+
+{% for msg in chat_messages %}
+<div class="msg {% if msg.sender == request.user %}sent{% else %}received{% endif %}" 
+     data-msg-id="{{ msg.id }}" 
+     id="msg-{{ msg.id }}">
+    <div class="msg-content">{{ msg.content }}</div>
+    <div style="font-size:11px;opacity:0.6;margin-top:4px;">
+        {{ msg.created_at|time:"H:i" }}
+    </div>
+</div>
+{% endfor %}
+
+<div id="msg-menu" class="msg-menu" style="display:none;">
+    <button type="button" id="btn-edit">✏️ Edit</button>
+    <button type="button" id="btn-delete" class="btn-danger">🗑️ Hapus</button>
+</div>
+
+</div>
+{% endblock %}
+
+{% block chat_input %}
+<form id="chat-form"
+      method="POST"
+      class="chat-form"
+      action="{% url 'send_message_ajax' conversation.id %}">
+
+{% csrf_token %}
+
+<textarea
+name="content"
+class="chat-textarea"
+placeholder="Type message..."
+rows="1"
+required
+></textarea>
+
+<button type="submit" class="send-btn">
+Send
+</button>
+
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

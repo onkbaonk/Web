@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-4">🔥 Feed</h3>
+
+<div id="post-container">
+    {% include "partials/feed_items.html" %}
+</div>
+
+<div id="loading" class="text-center p-3" style="display:none;">
+    <div class="spinner-border" role="status"></div>
+</div>
+
+<div class="text-center mt-4">
+    <button id="load-more-btn" class="btn btn-primary" data-page="2">Muat Lebih Banyak</button>
+</div>
+
+<script>
+    document.getElementById('load-more-btn').addEventListener('click', function() {
+        const btn = this;
+        const page = btn.getAttribute('data-page');
+        const container = document.getElementById('post-container');
+        const loader = document.getElementById('loading');
+
+        loader.style.display = 'block';
+        btn.style.display = 'none';
+
+        fetch(`?page=${page}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data.trim() === "") {
+                btn.remove(); // Jika tidak ada data lagi, hapus tombol
+            } else {
+                container.insertAdjacentHTML('beforeend', data);
+                btn.setAttribute('data-page', parseInt(page) + 1);
+                btn.style.display = 'inline-block';
+            }
+            loader.style.display = 'none';
+        })
+        .catch(err => console.error(err));
+    });
+</script>
+{% endblock %}

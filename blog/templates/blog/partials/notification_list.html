@@ -1,0 +1,40 @@
+{% for notif in notifications %}
+
+<div class="notif-item {% if not notif.is_read %}notif-unread{% endif %}">
+
+    <!-- ✅ AVATAR → PROFILE -->
+    <a href="{% url 'profile' notif.sender.username %}">
+        <img src="{{ notif.sender.profile_picture }}"
+             class="notif-avatar">
+    </a>
+
+    <div class="notif-content">
+
+        <!-- ✅ MESSAGE → POST -->
+        <a href="{{ notif.get_url }}"
+           class="text-decoration-none text-dark">
+
+            <small>{{ notif.message }}</small><br>
+
+            <small class="text-muted">
+                {{ notif.created_at|timesince }} ago
+            </small>
+
+        </a>
+
+    </div>
+
+</div>
+
+{% empty %}
+<div class="p-3 text-center text-muted small">
+    Tidak ada notifikasi
+</div>
+{% endfor %}
+
+<!-- FOOTER -->
+<div class="notif-footer">
+    <a href="{% url 'notifications' %}">
+        Lihat semua notifikasi →
+    </a>
+</div>

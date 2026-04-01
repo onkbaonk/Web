@@ -1,0 +1,63 @@
+<div class="card p-2 mb-2 ms-3">
+
+<div class="thread-meta mb-1">
+<i class="bi bi-person"></i> {{ reply.author }}
+</div>
+
+<p>{{ reply.content }}</p>
+
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'add_reply' thread.pk %}" 
+      id="form-reply-{{ reply.id }}" style="display:none;" class="mt-2">
+    {% csrf_token %}
+    <input type="hidden" name="parent_id" value="{{ reply.id }}">
+    <textarea name="content" class="form-control mb-2" rows="2" placeholder="Tulis balasan..."></textarea>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">Kirim</button>
+        <button type="button" class="btn btn-sm btn-secondary" 
+                onclick="toggleReplyForm('{{ reply.id }}')">Batal</button>
+    </div>
+</form>
+
+<button class="btn btn-sm btn-link text-decoration-none p-0" 
+        onclick="toggleReplyForm('{{ reply.id }}')">
+    Reply
+</button>
+{% endif %}
+
+
+{% with children=reply.children.all %}
+{% if children %}
+
+<button class="btn btn-sm btn-link p-0"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#replies-{{ reply.id }}"
+        aria-expanded="false">
+
+    Show replies ({{ children|length }})
+
+</button>
+
+<div class="collapse" id="replies-{{ reply.id }}">
+
+    {% for child in children %}
+        {% include "forum/partials/reply_item.html" with reply=child %}
+    {% endfor %}
+
+</div>
+
+{% endif %}
+{% endwith %}
+
+</div>
+<script>
+function toggleReplyForm(replyId) {
+    const form = document.getElementById('form-reply-' + replyId);
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+}
+</script>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+      <div class="card shadow-sm border-0">
+        <div class="card bg-color py-1">
+                <h4 class="mb-0 fw-bold"><i class="bi bi-gear me-1"></i> Settings Accounts</h4>
+            </div>
+        <div style="text-align: center;">
+            <img src="{{ request.user.image.url }}" alt="Profile" class="profile-img mb-3">
+            <p class="text-muted">status:@{{ request.user.role }}</p>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div style="margin-bottom: 5px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px;">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                
+                {% if field.errors %}
+                    <div style="color: crimson; font-size: 5px;">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+                <div class="mt-4">
+                      <div class="card-header d-flex justify-content-between align-items-center py-2">
+                <button class="btn btn-success" type="submit" style="border: none; cursor: pointer; flex: 1;">
+                    Save
+                </button>
+                <a href="{% url 'profile' user.username %}" class="login-btn" style="flex: 1; text-align: center;">
+                    Cancel
+                </a>
+                </div>
+              </div>
+        </form>
+</div>
+{% endblock %}

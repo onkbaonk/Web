@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="custom-card text-center">
+    <h3>Delete Post?</h3>
+
+    <p>Yakin ingin menghapus:</p>
+    <strong>{{ post.title }}</strong>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button class="delete-btn">Yes, Delete</button>
+        <a href="{{ post.get_absolute_url }}" class="login-btn">
+            Cancel
+        </a>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <span class="badge bg-primary">Forum</span>
+        <h5>
+            <a href="{{ thread.get_absolute_url }}">
+                {{ thread.title }}
+            </a>
+        </h5>
+        <div class="text-muted small">
+            👤 {{ thread.author.username }} | 📂 {{ thread.category.name }}
+        </div>
+        <a href="{{ thread.get_absolute_url }}">
+            Baca →
+        </a>
+    </div>
+</div>
