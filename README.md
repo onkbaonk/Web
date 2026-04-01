@@ -20,11 +20,23 @@ Proyek aplikasi web berbasis **Django** yang mendukung fitur real-time chat meng
 
 1. **Clone Repository:**
    ```bash
-   git clone [https://github.com/onkbaonk/Web.git](https://github.com/onkbaonk/Web.git)
+   git clone https://github.com/onkbaonk/Web.git
    cd Web
+   
+2. Buat & Aktifkan Virtual Environment:
    python -m venv venv
    source venv/bin/activate
+   
+3. Install Dependencies:
    pip install -r requirements.txt
+   
+4. Persiapkan Database:
    python manage.py migrate
    python manage.py createsuperuser
+   
+5. Jalankan Server:
    uvicorn core.asgi:application
+
+Web ini dapat diakses secara online di: [url://BELUM_ADA_HOSTING]
+
+Developed by onkbaonk
